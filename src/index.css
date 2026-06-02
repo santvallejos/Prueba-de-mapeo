@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+
+/*
+  Design System — Leaflet Zone Creator
+  Paleta oscura: Background #0F172A, Primary #1E293B, CTA #22C55E, Text #F8FAFC
+*/
+
+:root {
+  --color-bg:        #0F172A;
+  --color-surface:   #1E293B;
+  --color-surface-2: #334155;
+  --color-cta:       #22C55E;
+  --color-cta-hover: #16A34A;
+  --color-text:      #F8FAFC;
+  --color-muted:     #94A3B8;
+  --color-border:    #334155;
+  --font-main: 'Inter', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  height: 100dvh;
+  overflow: hidden;
+}
+
+#root {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sobrescribir estilos del mapa para adaptarlos al tema */
+.leaflet-container {
+  background: #1a2744 !important;
+  font-family: var(--font-main) !important;
+}
+
+/* Barra de herramientas de dibujo de Leaflet.draw */
+.leaflet-draw-toolbar a {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+.leaflet-draw-toolbar a:hover {
+  background-color: var(--color-surface-2) !important;
+}
+
+/* Panel de control del mapa (zoom) */
+.leaflet-control-zoom a {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background-color: var(--color-surface-2) !important;
+}
+
+/* Popup del mapa */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background-color: var(--color-surface) !important;
+  color: var(--color-text) !important;
+  border: 1px solid var(--color-border);
+}
