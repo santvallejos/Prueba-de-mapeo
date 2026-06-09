@@ -33,13 +33,15 @@ import 'leaflet/dist/leaflet.css'
 import 'leaflet-draw/dist/leaflet.draw.css'
 
 import { createZone, ZONE_COLORS } from '../../types/zone'
+import { checkOverlap } from '../../utils/geoValidation'
 
 /**
  * Props:
  *  - onZoneCreated(zone) → callback cuando el usuario termina de dibujar
  *  - zoneCount           → cuántas zonas hay (para ciclar colores)
+ *  - zones               → listado de zonas existentes para validación
  */
-export default function MapEngine({ onZoneCreated, zoneCount }) {
+export default function MapEngine({ onZoneCreated, zoneCount, zones }) {
   /**
    * featureGroupRef — Referencia a la capa FeatureGroup de Leaflet.
    *
@@ -71,6 +73,20 @@ export default function MapEngine({ onZoneCreated, zoneCount }) {
       // getLatLngs() devuelve [[LatLng, LatLng, ...]] — un array envuelto
       // [0] accede al primer anillo (los polígonos pueden tener huecos en anillos extra)
       coords = layer.getLatLngs()[0].map((ll) => [ll.lat, ll.lng])
+
+      // ═══════════════════════════════════════════════════════════════
+      // VALIDACIÓN DE SUPERPOSICIÓN (TURF.JS):
+      // Si la nueva figura es de área, comprobamos si se superpone con las existentes.
+      // Si hay superposición:
+      //   1. Alertamos al usuario
+      //   2. Quitamos el polígono del mapa visual (layer.remove)
+      //   3. Retornamos antes de agregar la zona al estado
+      // ═══════════════════════════════════════════════════════════════
+      if (checkOverlap(coords, zones)) {
+        alert('❌ ¡Error de Validación!\nLa nueva zona se superpone con una zona existente. Por favor, dibuja en un área libre.');
+        layer.remove(); // Quita la figura del mapa imperativamente
+        return;
+      }
     } else if (layerType === 'circle') {
       const center = layer.getLatLng()
       // Para círculos guardamos centro + radio (no hay coordenadas de borde)

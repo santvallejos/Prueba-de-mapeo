@@ -33,6 +33,7 @@ export default function App() {
       <MapEngine
         onZoneCreated={addZone}
         zoneCount={zones.length}
+        zones={zones}
       />
 
       {/* Panel de UI: flota sobre el mapa, no sabe que existe Leaflet */}
